@@ -8,9 +8,8 @@
     <br>
     <a href="https://nuxtjs.org">External Link to another page</a>
     -->
-    <div v-for="(waves, key) in data" :key="key">
-      {{key}}:
-      <wave-game :game="key" :waves="waves" />
+    <div v-for="(game_data, key) in data" :key="key">
+      <wave-game :game="key" :game_data="game_data" />
     </div>
   </main>
 </template>

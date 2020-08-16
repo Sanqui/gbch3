@@ -1,14 +1,14 @@
 <template>
   <div>
     <h3>game: {{ game }}</h3>
-    <div>
-      waves: {{ waves }}
+    <div v-for="(wave_data, wave) in game_data.waves" :key="wave">
+      <wave-wave :wave_data="wave_data" :wave="wave" />
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    props: ['game', 'waves'],
+    props: ['game', 'game_data'],
   }
 </script>
