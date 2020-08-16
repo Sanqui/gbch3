@@ -4,7 +4,7 @@
       <tt>{{ wave }}</tt>
     </div>
     <div>
-      <button>Play</button>
+      <button @click="play">Play</button>
     </div>
     <div>
       <dl>
@@ -18,8 +18,29 @@
 </template>
 
 <script>
+  import * as Tone from 'tone';
+
   export default {
     props: ['wave_data', 'wave'],
+    methods: {
+      play: function() {
+        var sample = [];
+        for (var n=0; n<32; n++) {
+          var amplitude = parseInt(this.wave[n], 16);
+          for (var i=0; i<4; i++) {
+            sample.push(amplitude/16);
+          }
+        }
+        for (var i=0; i<10; i++) {
+          sample = sample.concat(sample);
+        }
+        console.log(sample)
+        const buffer = Tone.ToneAudioBuffer.fromArray(Float32Array.from(sample));
+
+        const player = new Tone.Player(buffer).toDestination();
+        player.start();
+      }
+    }
   }
 </script>
 
