@@ -2,6 +2,7 @@
   <div class="wave">
     <div class="left">
       <tt>{{ wave }}</tt>
+      <!-- TODO copy as ascii button -->
     </div>
     <div>
       <button @click="play">Play</button>
@@ -24,16 +25,25 @@
     props: ['wave_data', 'wave'],
     methods: {
       play: function() {
+        const SAMPLE_LENGTH = 200;
         var sample = [];
-        for (var n=0; n<32; n++) {
-          var amplitude = parseInt(this.wave[n], 16);
-          for (var i=0; i<4; i++) {
-            sample.push(amplitude/16);
+        
+        for (var j=0; j<SAMPLE_LENGTH; j++) {
+          var volume = 1.0;
+          if (j/SAMPLE_LENGTH > 0.9) {
+            volume = 0.25;
+          } else if (j/SAMPLE_LENGTH > 0.75) {
+            volume = 0.5;
+          }
+          for (var n=0; n<32; n++) {
+            var amplitude = parseInt(this.wave[n], 16);
+
+            for (var i=0; i<4; i++) {
+              sample.push((amplitude/16) * volume);
+            }
           }
         }
-        for (var i=0; i<10; i++) {
-          sample = sample.concat(sample);
-        }
+
         console.log(sample)
         const buffer = Tone.ToneAudioBuffer.fromArray(Float32Array.from(sample));
 
