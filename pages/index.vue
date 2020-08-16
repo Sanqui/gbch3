@@ -8,18 +8,19 @@
     <br>
     <a href="https://nuxtjs.org">External Link to another page</a>
     -->
-    <ul>
-      <li v-for="(game, key) in data" :key="key">{{ key }}</li>
-    </ul>
+    <div v-for="(waves, key) in data" :key="key">
+      {{key}}:
+      <wave-game :game="key" :waves="waves" />
+    </div>
   </main>
 </template>
 
 <script>
-import data from '~/data/data.json'
+  import data from '~/data/data.json'
 
-export default {
-  asyncData () {
-    return { data: data }
+  export default {
+    asyncData () {
+      return { data: data }
+    }
   }
-}
 </script>
