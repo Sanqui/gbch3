@@ -1,5 +1,7 @@
 <template>
   <main>
+    Tone to play:
+    <wave-tone-select v-model="frequency"/>
     <h2>Games</h2>
     <!--
     <nuxt-link to="/about">
@@ -27,28 +29,32 @@
     data() {
       return {
         player: null,
+        frequency: "440.00",
       }
     },
     methods: {
       play: function(wave) {
         console.log("boop");
-        const SAMPLE_LENGTH = 200;
+        const SAMPLE_RATE = 48000;
+        const SAMPLE_LENGTH = 20000;
+        const WAVE_WIDTH = 32;
+
+        var amplitude_hold = SAMPLE_RATE / parseFloat(this.frequency) / WAVE_WIDTH;
+        var step = 0;
+        
         var sample = [];
         
-        for (var j=0; j<SAMPLE_LENGTH; j++) {
+        for (var step=0; step<SAMPLE_LENGTH; step++) {
           var volume = 1.0;
-          if (j/SAMPLE_LENGTH > 0.9) {
+          if (step/SAMPLE_LENGTH > 0.9) {
             volume = 0.25;
-          } else if (j/SAMPLE_LENGTH > 0.75) {
+          } else if (step/SAMPLE_LENGTH > 0.75) {
             volume = 0.5;
           }
-          for (var n=0; n<32; n++) {
-            var amplitude = parseInt(wave[n], 16);
-
-            for (var i=0; i<4; i++) {
-              sample.push((amplitude/16) * volume);
-            }
-          }
+          var n = Math.floor((step / amplitude_hold) % WAVE_WIDTH);
+          var amplitude = parseInt(wave[n], 16);
+          
+          sample.push((amplitude/16) * volume);
         }
 
         // console.log(sample)
@@ -59,7 +65,7 @@
         }
         this.player = new Tone.Player(buffer).toDestination();
         this.player.start();
-      }
+      },
     },
   }
 </script>
