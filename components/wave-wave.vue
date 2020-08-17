@@ -1,5 +1,5 @@
 <template>
-  <div class="wave">
+  <div class="wave" v-bind:class="{ full: show_details }" v-on:click="expand()">
     <div class="left">
       <svg viewBox="0 0 1 1" preserveAspectRatio="none">
         <polygon :points="wavePoints" />
@@ -8,13 +8,13 @@
       <!-- TODO copy as ascii button -->
     </div>
     <div>
-      <button v-on:click="$emit('play-sample', wave)">
+      <button v-on:click.stop="$emit('play-sample', wave)">
         <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-play-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
         </svg> 
       </button>
     </div>
-    <div>
+    <div class="details" v-if="show_details">
       <dl>
         <dt>ticks:</dt>
           <dd>{{ wave_data.ticks }}</dd>
@@ -30,6 +30,11 @@
 
   export default {
     props: ['wave_data', 'wave'],
+    data() {
+      return {
+        show_details: false
+      }
+    },
     computed: {
       wavePoints() {
         var points = []
@@ -44,6 +49,12 @@
         return points.join(" ");
       }
     },
+    methods: {
+      expand() {
+        this.show_details = true;
+        return false;
+      }
+    }
   }
 </script>
 
@@ -51,12 +62,26 @@
   .wave {
     display: flex;
     border: 1px solid #999;
+    background: #fff;
     padding: 4px;
     margin: 4px;
     border-radius: 4px;
+
+    max-height: 150px;
+
+    /*transition: all 1s;*/
+
+    &.full {
+      width: 95%;
+    }
+
+    &:hover {
+      background: #f4f4ff;
+      cursor: pointer;
+    }
     
     .left {
-      font-size: 150%;
+      font-size: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -79,6 +104,10 @@
       }
     }
     
+    .details {
+      overflow: hidden;
+    }
+
     > div {
       margin: 2px 12px;
     }
@@ -89,6 +118,8 @@
       border: 1px solid #999;
       border-radius: 4px;
       padding: 0;
+      background: #fff;
+      cursor: pointer;
 
       &:hover {
         background-color: #f9f9f9;
