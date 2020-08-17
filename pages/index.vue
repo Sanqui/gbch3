@@ -1,7 +1,9 @@
 <template>
   <main>
-    Tone to play:
-    <wave-tone-select v-model="frequency"/>
+    <div class="tone-select">
+      Tone to play:
+      <wave-tone-select v-model="frequency"/>
+    </div>
     <h2>Games</h2>
     <!--
     <nuxt-link to="/about">
@@ -70,3 +72,9 @@
     },
   }
 </script>
+
+<style scoped>
+  .tone-select {
+    text-align: center;
+  }
+</style>

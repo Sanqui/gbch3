@@ -58,7 +58,9 @@ def export():
     for game, data in games.items():
         json_out[game] = {}
         json_out[game]['waves'] = {}
+        json_out[game]['most_ticks'] = data['waves'].most_common(1)[0][1]
         for wave, count in data['waves'].most_common(50):
+            if count < 50: continue;
             wave_hex = "".join(['{:x}'.format(x) for x in wave])
             songs = data['wave_songs'][wave]
             json_out[game]['waves'][wave_hex] = {'ticks': count, 'songs': list(songs)}
