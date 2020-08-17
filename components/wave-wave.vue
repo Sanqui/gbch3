@@ -5,7 +5,7 @@
       <!-- TODO copy as ascii button -->
     </div>
     <div>
-      <button @click="play">Play</button>
+      <button v-on:click="$emit('play-sample', wave)">Play</button>
     </div>
     <div>
       <dl>
@@ -23,34 +23,6 @@
 
   export default {
     props: ['wave_data', 'wave'],
-    methods: {
-      play: function() {
-        const SAMPLE_LENGTH = 200;
-        var sample = [];
-        
-        for (var j=0; j<SAMPLE_LENGTH; j++) {
-          var volume = 1.0;
-          if (j/SAMPLE_LENGTH > 0.9) {
-            volume = 0.25;
-          } else if (j/SAMPLE_LENGTH > 0.75) {
-            volume = 0.5;
-          }
-          for (var n=0; n<32; n++) {
-            var amplitude = parseInt(this.wave[n], 16);
-
-            for (var i=0; i<4; i++) {
-              sample.push((amplitude/16) * volume);
-            }
-          }
-        }
-
-        console.log(sample)
-        const buffer = Tone.ToneAudioBuffer.fromArray(Float32Array.from(sample));
-
-        const player = new Tone.Player(buffer).toDestination();
-        player.start();
-      }
-    }
   }
 </script>
 
