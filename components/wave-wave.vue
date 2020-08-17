@@ -8,7 +8,11 @@
       <!-- TODO copy as ascii button -->
     </div>
     <div>
-      <button v-on:click="$emit('play-sample', wave)">Play</button>
+      <button v-on:click="$emit('play-sample', wave)">
+        <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-play-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+        </svg> 
+      </button>
     </div>
     <div>
       <dl>
@@ -49,6 +53,7 @@
     border: 1px solid #999;
     padding: 4px;
     margin: 4px;
+    border-radius: 4px;
     
     .left {
       font-size: 150%;
@@ -80,6 +85,14 @@
 
     button {
       height: 100%;
+      background: none;
+      border: 1px solid #999;
+      border-radius: 4px;
+      padding: 0;
+
+      &:hover {
+        background-color: #f9f9f9;
+      }
     }
   }
 </style>
