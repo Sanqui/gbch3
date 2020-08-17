@@ -40,7 +40,7 @@
         const SAMPLE_RATE = 48000;
         const SAMPLE_LENGTH = 20000;
         const WAVE_WIDTH = 32;
-        const FINAL_VOLUME = 0.8;
+        const FINAL_VOLUME = 0.2;
 
         var amplitude_hold = SAMPLE_RATE / parseFloat(this.frequency) / WAVE_WIDTH;
         var step = 0;
@@ -57,7 +57,7 @@
           var n = Math.floor((step / amplitude_hold) % WAVE_WIDTH);
           var amplitude = parseInt(wave[n], 16);
           
-          sample.push((amplitude/16) * volume * FINAL_VOLUME);
+          sample.push(((amplitude/16) - 0.5) * volume * FINAL_VOLUME);
         }
 
         // console.log(sample)

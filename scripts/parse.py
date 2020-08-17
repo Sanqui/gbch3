@@ -5,9 +5,9 @@ import json
 DIR = "data/"
 BARCHARS = " ▁▂▃▄▅▆▇█"
 
-games = {}
 
 def parse_games():
+    games = {}
     for filename in listdir(DIR):
         game = filename.split('.txt')[0]
         
@@ -28,6 +28,9 @@ def parse_games():
         games[game] = {}
         games[game]['waves'] = waves
         games[game]['wave_songs'] = wave_songs
+    
+    games = dict(sorted(games.items(), key=lambda x: x[0]))
+    return games
 
 def output():
     # Outdated
@@ -67,5 +70,5 @@ def export():
 
     print(json.dumps(json_out))
 
-parse_games()
+games = parse_games()
 export()

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>My First Nuxt.js Website!</h1>
+    <h1>gbch3 visualizer</h1>
     <div>
       <Nuxt />
     </div>
