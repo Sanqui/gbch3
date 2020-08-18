@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3 v-on:click="expand()">
-      game: {{ game }}
+      {{ game }}
     </h3>
     <div class="waves" v-if="expanded">
       <wave-wave v-for="(wave_data, wave) in game_data.waves" :key="wave"

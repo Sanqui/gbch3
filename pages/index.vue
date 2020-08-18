@@ -5,15 +5,14 @@
       <wave-tone-select v-model="frequency"/>
     </div>
     <h2>Games</h2>
-    <!--
-    <nuxt-link to="/about">
-      About
-    </nuxt-link>
-    <br>
-    <a href="https://nuxtjs.org">External Link to another page</a>
-    -->
-    <div v-for="(game_data, key) in data" :key="key">
-      <wave-game :game="key" :game_data="game_data" v-on:play-sample="play" />
+    <div>
+      <input type="radio" id="games-show-select" value="select" v-model="games_show" @input="change_games_show">
+      <label for="games-show-select">Show select games</label>
+      <input type="radio" id="games-show-all" value="all" v-model="games_show" @input="change_games_show">
+      <label for="games-show-all">Show all games</label>
+    </div>
+    <div v-for="game in show_games" :key="game">
+      <wave-game :game="game" :game_data="data[game]" v-on:play-sample="play" />
     </div>
   </main>
 </template>
@@ -21,6 +20,18 @@
 <script>
   import data from '~/data/data.json'
   import * as Tone from 'tone';
+
+  const SELECT_GAMES = [
+    "Kirby's Dream Land (1992)(HAL Laboratory)",
+    "Legend of Zelda - Link's Awakening DX (1993)(Nintendo)",
+    "Pokemon Crystal (2001)(Game Freak, Nintendo)",
+    "Pokemon Red (1998)(Game Freak, Nintendo)",
+    "Pokemon Trading Card Game (1998)(Nintendo)",
+    "Super Mario Land (1989)(Nintendo)",
+    "Tetris (1989)(BPS, Nintendo)",
+    "Wario Land 2 (1998)(Nintendo)",
+  ]
+
 
   export default {
     asyncData () {
@@ -32,9 +43,23 @@
       return {
         player: null,
         frequency: "440.00",
+        show_games: SELECT_GAMES,
+        games_show: "select"
       }
     },
     methods: {
+      change_games_show: function() {
+        // XXX this condition is reversed, most likely
+        // @input gets fired before the games_show variable gets changed
+        // TODO fix
+
+        if (this.games_show == 'all') {
+          this.show_games = SELECT_GAMES;
+        } else {
+          this.show_games = Object.keys(data);
+        }
+        
+      },
       play: function(wave) {
         console.log("boop");
         const SAMPLE_RATE = 48000;
